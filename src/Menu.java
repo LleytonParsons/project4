@@ -1,8 +1,11 @@
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Menu {
     private Scanner scanner = new Scanner(System.in);
     private Bank bank = new Bank();
+    private BankInfo bankInfo;
+
 
     public void runMenu(){
         while (true){
@@ -30,7 +33,7 @@ public class Menu {
         }
     }
 
-    private void accessAccount(){ //FINISH THIS!
+    private void accessAccount(){
         String pinNum;
         Customer customer;
         System.out.print("Enter account PIN: ");
@@ -41,9 +44,17 @@ public class Menu {
             return;
         }
         else{
+            //gere
             System.out.printf("\n%s Active Accounts %s\n", "*".repeat(3), "*".repeat(3));
             Account account;
             System.out.println(customer.toString());
+            if(bankInfo.getResponse().equals("yes")) {
+                System.out.println(bankInfo.toString());
+            }
+            else{
+                System.out.println("No Banking Information Entered");
+            }
+
             System.out.println(customer.getAllAccountInfo());
             String selection;
             int accountNum;
@@ -83,7 +94,7 @@ public class Menu {
             }
         }
     }
-    private void openNewAccount(){ //NOTE: Fix account number
+    private void openNewAccount(){
         String selection;
         String pinNum;
         System.out.print("Are you a new customer?\n" + "1) Yes\n" + "2) No\n" + ">> ");
@@ -123,16 +134,37 @@ public class Menu {
             System.out.println("Invalid entry. Please try again.");
         }
     }
+    private void getBankInfo(){
+        System.out.print("Enter name of banking service: ");
+        String bankService = scanner.nextLine();
+        System.out.print("Enter main bank branch location: ");
+        String bankLocation = scanner.nextLine();
+        bankInfo = new BankInfo(bankService,bankLocation);
+    }
     private Customer createNewCustomer(){
         String firstName, lastName, pinNum;
+        Customer customer;
         System.out.println("Enter your first name: ");
         firstName = scanner.nextLine();
         System.out.println("Enter your last name: ");
         lastName = scanner.nextLine();
         System.out.println("Enter a 4 digit PIN number: ");
         pinNum = scanner.nextLine();
-        Customer customer = new Customer(firstName,lastName,pinNum);
-        bank.addCustomer(customer);
+        System.out.print("Would you like to add some bank information?\n" + "1) Yes\n" + "2) No\n" + ">> ");
+        String selection = scanner.nextLine();
+        if(selection.equals("1")){
+
+            customer = new Customer(firstName, lastName, pinNum);
+            getBankInfo();
+            bankInfo.setResponse("yes");
+            bank.addCustomer(customer);
+        }
+        else {
+            customer = new Customer(firstName, lastName, pinNum);
+            bankInfo = new BankInfo();
+            bankInfo.setResponse("no");
+            bank.addCustomer(customer);
+        }
         return customer;
     }
     private void closeAccounts(){

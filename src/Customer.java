@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 
 public class Customer {
-    private String firstName;
-    private String lastName;
-    private String pinNum;
-    private ArrayList<Account> accountArrayList = new ArrayList<>();
+    protected String firstName;
+    protected String lastName;
+    protected String pinNum;
+    protected ArrayList<Account> accountArrayList = new ArrayList<>();
+
 
     public Customer(String firstName, String lastName, String pinNum){
         this.firstName = firstName;

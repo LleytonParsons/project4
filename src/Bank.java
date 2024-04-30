@@ -1,20 +1,20 @@
 import java.util.HashMap;
 
 public class Bank {
-    private HashMap<Key, Customer> customerHashMap = new HashMap();
+    private HashMap<Customer, String> customerHashMap = new HashMap();
 
     public void addCustomer(Customer customer){
-        customerArrayList.add(customer);
+        customerHashMap.put(customer, customer.getFirstName());
     }
     public void removeCustomer(Customer customer){
-        customerArrayList.remove(customer);
+        customerHashMap.remove(customer);
     }
-    public ArrayList<Customer> getCustomerArrayList(){
-        return customerArrayList;
+    public HashMap<Customer, String> getCustomerHashMap(){
+        return customerHashMap;
     }
     public Customer getCustomerByPin(String pinNum){
         Customer foundCustomer = null;
-        for(Customer customer : customerArrayList){
+        for(Customer customer : customerHashMap.keySet()){
             if(customer.getPinNum().equals(pinNum)){
                 foundCustomer = customer;
                 break;
@@ -24,7 +24,7 @@ public class Bank {
     }
     public StringBuilder getAllCustomerInfo(){
         StringBuilder customers = new StringBuilder();
-        for(Customer customer : customerArrayList){
+        for(Customer customer : customerHashMap.keySet()){
             customers.append(customer + "\n");
         }
         return customers;
